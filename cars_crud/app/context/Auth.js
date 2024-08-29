@@ -1,4 +1,3 @@
-// /context/Auth.js
 import { createContext, useState } from "react";
 import axios from "axios";
 
@@ -13,7 +12,9 @@ export default function AuthWrapper({ children }) {
   });
 
   async function login(userInfo) {
-    const url = 'http://127.0.0.1:8000/api/token/';
+    const url = `${process.env.NEXT_PUBLIC_API_URL}api/token/`;
+    console.log('url', url);
+
     try {
       const res = await axios.post(url, userInfo);
       setGlobalLoginState({
@@ -24,7 +25,7 @@ export default function AuthWrapper({ children }) {
       });
       return userInfo.username;
     } catch (error) {
-      console.error("Login failed", error);
+      console.error("Login failed", error.response ? error.response.data : error.message);
       return null;
     }
   }

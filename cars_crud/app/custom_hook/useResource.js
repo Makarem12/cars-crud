@@ -2,10 +2,12 @@ import { useContext } from 'react';
 import { AuthContext } from '../context/Auth'; // Ensure the path is correct
 import useSWR from 'swr';
 
-const apiUrl = 'http://127.0.0.1:8000/api/v1/things_app/';
-
+// const apiUrl = 'http://127.0.0.1:8000/api/v1/things_app/';
+const apiUrl = process.env.NEXT_PUBLIC_API_URL+'api/v1/things_app/';
+console.log('url', apiUrl);
 export default function useResource() {
     const { tokens } = useContext(AuthContext);
+    
 
     // Use tokens as a key to re-fetch data when tokens change
     const { data, error, mutate } = useSWR(tokens ? apiUrl : null, fetchResource);
